@@ -23,7 +23,7 @@ class HTMLNode:
         return "".join(list(map((lambda x: " " + '="'.join(x) + '"'), self.props.items())))
     
     def __repr__(self):
-        return f"HTMLNode({self.tag}, {self.value}, {self.children}, {self.props})"
+        return f"HTMLNode(tag={self.tag}, value={self.value}, children={self.children}, props={self.props})"
     
     def __eq__(self, other):
         return (

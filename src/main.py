@@ -1,4 +1,5 @@
 from htmlnode import HTMLNode
+from leafnode import LeafNode
 from textnode import TextNode, TextType
 
 
@@ -13,6 +14,16 @@ def main():
     html_node = HTMLNode(props={"href": "https://www.google.com", "target": "_blank"})
     print(f"DEBUG: html_node.props_to_html(): {html_node.props_to_html()}")
     print(f"\thtml_node repr: {html_node}")
+    leaf_node = LeafNode('p', "this is a paragraph leaf node")
+    print(f"DEBUG: leaf_node p: {leaf_node.to_html()}")
+    leaf_node2 = LeafNode('a', "link to google", props={"href": "https://www.google.com", "target": "_blank"})
+    print(f"DEBUG: leaf_node a: {leaf_node2.to_html()}")
+
+    tag = 'a'
+    value = "this is the string value in an anchor element"
+    props = {"href": "https://www.google.com", "target": "_blank"}
+    node = LeafNode(tag, value, props)
+    print(f"DEBUG: {node}")
 
 
 if __name__ == "__main__":
