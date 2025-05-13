@@ -1,5 +1,6 @@
 from htmlnode import HTMLNode
 from leafnode import LeafNode
+from parentnode import ParentNode
 from textnode import TextNode, TextType
 
 
@@ -24,6 +25,17 @@ def main():
     props = {"href": "https://www.google.com", "target": "_blank"}
     node = LeafNode(tag, value, props)
     print(f"DEBUG: {node}")
+
+    node = ParentNode(
+        "p",
+        [
+            LeafNode("b", "Bold text"),
+            LeafNode(None, "Normal text"),
+            LeafNode("i", "italic text"),
+            LeafNode(None, "Normal text"),
+        ],
+    )
+    print(f"DEBUG: node.to_html(): {node.to_html()}")
 
 
 if __name__ == "__main__":
