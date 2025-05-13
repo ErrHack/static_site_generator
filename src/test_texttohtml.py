@@ -51,7 +51,12 @@ class TestTextToHtml(unittest.TestCase):
         self.assertEqual(html_node.props, html_node_props)
 
     def test_unknown_type(self):
-        pass
+        tag = "image"
+        html_node_value = ""
+        html_node_props = {"src": "/path/to/image.png", "alt": "alt text from text_node.text"}
+        text_node = TextNode(html_node_props["alt"], tag, html_node_props["src"])
+        with self.assertRaises(Exception):
+            text_node_to_html_node(text_node)
 
 
 if __name__ == "__main__":
