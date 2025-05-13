@@ -12,7 +12,7 @@ class TestTextNode(unittest.TestCase):
     def test_eq2(self):
         text = "This is a text node"
         url = "www.google.com"
-        text_type = TextType.NORMAL
+        text_type = TextType.TEXT
         node = TextNode(text, text_type, url)
         node2 = TextNode(text, text_type, url)
         self.assertEqual(node, node2)
@@ -21,7 +21,7 @@ class TestTextNode(unittest.TestCase):
         text = "This is a text node"
         text2 = "This is a text node "
         url = "www.google.com"
-        text_type = TextType.NORMAL
+        text_type = TextType.TEXT
         node = TextNode(text, text_type, url)
         node2 = TextNode(text2, text_type, url)
         self.assertNotEqual(node, node2)
@@ -31,7 +31,7 @@ class TestTextNode(unittest.TestCase):
         text2 = "This is a text node"
         url = "google.com"
         url2 = "www.google.com"
-        text_type = TextType.NORMAL
+        text_type = TextType.TEXT
         node = TextNode(text, text_type, url2)
         node2 = TextNode(text2, text_type, url)
         self.assertNotEqual(node, node2)
@@ -41,7 +41,7 @@ class TestTextNode(unittest.TestCase):
         text2 = "This is a text node"
         url = "google.com"
         url2 = "www.google.com"
-        text_type = TextType.NORMAL
+        text_type = TextType.TEXT
         text_type2 = TextType.ITALIC
         node = TextNode(text, text_type, url2)
         node2 = TextNode(text2, text_type2, url)
