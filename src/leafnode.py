@@ -2,7 +2,12 @@ from htmlnode import HTMLNode
 
 
 class LeafNode(HTMLNode):
-    def __init__(self, tag: str, value: str, props: dict[str] = None):
+    def __init__(
+            self,
+            tag: str,
+            value: str,
+            props: dict[str, str] = None
+    ):
         super().__init__(tag, value, props=props)
 
     def to_html(self):
