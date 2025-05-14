@@ -1,3 +1,4 @@
+from helperfunctions import split_nodes_delimiter
 from htmlnode import HTMLNode
 from leafnode import LeafNode
 from parentnode import ParentNode
@@ -5,8 +6,8 @@ from textnode import TextNode, TextType
 
 
 def main():
-    text_node = TextNode("Dummy Text", TextType.NORMAL, "https://www.google.com")
-    text_node_2 = TextNode("Dummy Text", TextType.NORMAL, "https://www.google.com")
+    text_node = TextNode("Dummy Text", TextType.TEXT, "https://www.google.com")
+    text_node_2 = TextNode("Dummy Text", TextType.TEXT, "https://www.google.com")
     text_node_3 = TextNode("Some Different **Dummy** Text", TextType.BOLD, "https://www.boot.dev")
     print(f"DEBUG: dummy text node: {text_node}")
     print(f"\ttext node 1 == text node 2: {text_node_2 == text_node}")
@@ -36,6 +37,16 @@ def main():
         ],
     )
     print(f"DEBUG: node.to_html(): {node.to_html()}")
+
+    s = "*this is a string*. *more bold"
+    split_str = s.split('*')
+    print(f"split_str: {split_str}")
+
+    node = TextNode("This is a string with a **bold word**.", TextType.TEXT)
+    new_nodes = split_nodes_delimiter([node], "**", TextType.BOLD)
+    print(f"DEBUG: split_nodes_delimiter -> new_nodes: {new_nodes}")
+
+    
 
 
 
