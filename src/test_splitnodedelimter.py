@@ -89,7 +89,7 @@ class TestSplitNodeDelimiter(unittest.TestCase):
     def test_multi_nodes(self):
         node = TextNode("This is a string with a **bold word**.", TextType.TEXT)
         node_2 = TextNode("This is another string with a **bold** word.", TextType.TEXT)
-        new_nodes = split_nodes_delimiter([node_2, node], "**", TextType.BOLD)
+        new_nodes = split_nodes_delimiter([node, node_2], "**", TextType.BOLD)
         new_nodes_1 = new_nodes[0:3]
         new_nodes_2 = new_nodes[3:]
         
