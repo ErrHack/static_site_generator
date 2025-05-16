@@ -1,4 +1,4 @@
-from helperfunctions import split_nodes_delimiter
+from helperfunctions import extract_markdown_images, extract_markdown_links, split_nodes_delimiter
 from htmlnode import HTMLNode
 from leafnode import LeafNode
 from parentnode import ParentNode
@@ -45,6 +45,9 @@ def main():
     node = TextNode("This is a string with a **bold word**.", TextType.TEXT)
     new_nodes = split_nodes_delimiter([node], "**", TextType.BOLD)
     print(f"DEBUG: split_nodes_delimiter -> new_nodes: {new_nodes}")
+
+    text = "This is text with a [rick roll](https://i.imgur.com/aKaOqIh.gif) and ![obi wan](https://i.imgur.com/fJRm4Vk.jpeg)"
+    print(f"DEBUG: \n\textract_markdown_images(text): {extract_markdown_links(text)}")
 
     
 
