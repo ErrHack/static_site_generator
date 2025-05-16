@@ -98,16 +98,34 @@ class TestSplitNodeDelimiter(unittest.TestCase):
                 self.assertEqual(new_nodes_1[i].text_type, TextType.TEXT)
             else:
                 self.assertEqual(new_nodes_1[i].text_type, TextType.BOLD)
+            match i:
+                case 0:
+                    self.assertEqual(new_nodes_1[0].text, "This is a string with a ")
+                case 1:
+                    self.assertEqual(new_nodes_1[1].text, "bold word")
+                case 2:
+                    self.assertEqual(new_nodes_1[2].text, ".")
             
         for i in range(len(new_nodes_2)):
             if i % 2 == 0:
                 self.assertEqual(new_nodes_2[i].text_type, TextType.TEXT)
             else:
                 self.assertEqual(new_nodes_2[i].text_type, TextType.BOLD)
+            match i:
+                case 0:
+                    self.assertEqual(new_nodes_2[0].text, "This is another string with a ")
+                case 1:
+                    self.assertEqual(new_nodes_2[1].text, "bold")
+                case 2:
+                    self.assertEqual(new_nodes_2[2].text, " word.")
             
-
-
-
+    def test_multiple_types(self):
+        node = TextNode("This is a string with a **bold word**.", TextType.TEXT)
+        node_2 = TextNode("This is another string with a _intalic_ word.", TextType.TEXT)
+        new_nodes = split_nodes_delimiter([node, node_2], "**", TextType.BOLD)
+        self.assertEqual(len(new_nodes), 4)
+        self.assertEqual(new_nodes[3].text_type, TextType.TEXT)
+        self.assertEqual(new_nodes[3].text, "This is another string with a _intalic_ word.")
 
 
 
