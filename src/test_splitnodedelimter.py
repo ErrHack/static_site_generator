@@ -27,22 +27,22 @@ class TestSplitNodeDelimiter(unittest.TestCase):
     def test_length_2(self):
         node = TextNode("This is a string with **bold words and nothing after the bold delimiter**", TextType.TEXT)
         new_nodes = split_nodes_delimiter([node], "**", TextType.BOLD)
-        self.assertEqual(len(new_nodes), 3)
+        self.assertEqual(len(new_nodes), 2)
 
     def test_length_3(self):
         node = TextNode("**Nothing before the bold delimiter** with lots of text after. HAHAHAHA", TextType.TEXT)
         new_nodes = split_nodes_delimiter([node], "**", TextType.BOLD)
-        self.assertEqual(len(new_nodes), 3)
+        self.assertEqual(len(new_nodes), 2)
 
     def test_length_4(self):
-        node = TextNode("**With all the text is bolds!!!! HAHAHAHA**.", TextType.TEXT)
+        node = TextNode("**With all the text is bolds!!!! HAHAHAHA**", TextType.TEXT)
         new_nodes = split_nodes_delimiter([node], "**", TextType.BOLD)
-        self.assertEqual(len(new_nodes), 3)
+        self.assertEqual(len(new_nodes), 1)
 
     def test_length_5(self):
         node = TextNode("And multiple **separate** words that are **bold**", TextType.TEXT)
         new_nodes = split_nodes_delimiter([node], "**", TextType.BOLD)
-        self.assertEqual(len(new_nodes), 5)
+        self.assertEqual(len(new_nodes), 4)
         
     def test_even_odd_indices(self):
         node = TextNode("This is a string with a **bold word**.", TextType.TEXT)
@@ -126,6 +126,19 @@ class TestSplitNodeDelimiter(unittest.TestCase):
         self.assertEqual(len(new_nodes), 4)
         self.assertEqual(new_nodes[3].text_type, TextType.TEXT)
         self.assertEqual(new_nodes[3].text, "This is another string with a _intalic_ word.")
+
+    def test_no_returned_empty_str_1(self):
+        node = TextNode("**Begin bold** and end normal.", TextType.TEXT)
+        new_nodes = split_nodes_delimiter([node], "**", TextType.BOLD)
+        self.assertEqual(new_nodes[0].text_type, TextType.BOLD)
+        self.assertEqual(new_nodes[0].text, "Begin bold")
+        self.assertEqual(new_nodes[1].text_type, TextType.TEXT)
+        self.assertEqual(new_nodes[1].text, " and end normal.")
+
+    def test_no_returned_empty_str_2(self):
+        node = TextNode("Begin normal and end on **bold**", TextType.TEXT)
+        new_nodes = split_nodes_delimiter([node], "**", TextType.BOLD)
+        self.assertNotEqual(new_nodes[len(new_nodes) - 1].text, '')
 
 
 
