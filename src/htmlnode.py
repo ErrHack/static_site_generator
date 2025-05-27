@@ -15,8 +15,7 @@ class HTMLNode:
         self.props = props
 
     def to_html(self):
-        raise NotImplementedError("to_html has not been" \
-            " implemented by a child class")
+        raise NotImplementedError("to_html has not been implemented by a child class")
     
     def props_to_html(self):
         if self.props == None: return ""

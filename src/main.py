@@ -49,9 +49,12 @@ def main():
     text = "This is text with a [rick roll](https://i.imgur.com/aKaOqIh.gif) and ![obi wan](https://i.imgur.com/fJRm4Vk.jpeg)"
     print(f"DEBUG: \n\textract_markdown_images(text): {extract_markdown_links(text)}")
 
-    
+    s = "#### heading but it has multiple spaces."
+    num_h = s.find(' ')
+    print(f"DEBUG: THIS IS num_h: {num_h} and this is split at first space: {s.split(' ', 1)[1]}")
 
-
+    s = "```some code```"
+    print(f"DEBUG: strip backticks: {s.strip('`')}")
 
 
 

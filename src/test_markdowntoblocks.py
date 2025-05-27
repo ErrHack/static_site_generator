@@ -44,6 +44,44 @@ This is a paragraph of text. It has some **bold** and _italic_ words inside of i
             ],
         )
 
+    def test_markdown_to_blocks3(self):
+
+        md = """
+This is **bolded** paragraph
+text in a p
+tag here
+
+This is another paragraph with _italic_ text and `code` here, and possibly an empty block at the end.
+
+"""
+        blocks = markdown_to_blocks(md)
+        self.assertEqual(
+            blocks,
+            [
+                "This is **bolded** paragraph\ntext in a p\ntag here",
+                "This is another paragraph with _italic_ text and `code` here, and possibly an empty block at the end.",
+            ],
+        )
+
+    def test_markdown_to_blocks4(self):
+
+        md = """
+
+This is **bolded** paragraph
+text in a p
+tag here
+
+This is another paragraph with _italic_ text and `code` here, and possibly an empty block at the end.
+
+"""
+        blocks = markdown_to_blocks(md)
+        self.assertEqual(
+            blocks,
+            [
+                "This is **bolded** paragraph\ntext in a p\ntag here",
+                "This is another paragraph with _italic_ text and `code` here, and possibly an empty block at the end.",
+            ],
+        )
 
 if __name__ == "__main__":
     unittest.main()

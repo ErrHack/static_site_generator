@@ -4,9 +4,10 @@ from block_types import BlockType
 
 def markdown_to_blocks(markdown: str) -> list[str]:
     block_lst = markdown.split("\n\n")
-    return [block.strip(" \n") for block in block_lst]
+    return [block.strip(" \n") for block in block_lst if block]
 
 def block_to_block_type(block: str) -> BlockType:
+    # print(f"DEBUG FROM block_to_block_type(): block: {block}")
     match block[0]:
         case '#':
             return BlockType.HEADING if re.match(r"(?<!#)[#]{1,6}[ ]+.+", block) != None else BlockType.PARAGRAPH

@@ -1,6 +1,9 @@
 import re
+from block_helpers import block_to_block_type, markdown_to_blocks
+from block_types import BlockType
 from htmlnode import HTMLNode
 from leafnode import LeafNode
+from parentnode import ParentNode
 from textnode import TextNode, TextType
 
 
@@ -90,12 +93,61 @@ def text_to_textnodes(text: str) -> list[TextNode]:
                         split_nodes_delimiter(
                             split_nodes_delimiter(
                                 [TextNode(text, TextType.TEXT)],
-                                "**", TextType.BOLD
+                                '`', TextType.CODE
                             ),
-                            '_', TextType.ITALIC
+                            "**", TextType.BOLD
                         ),
-                        '`', TextType.CODE
+                        '_', TextType.ITALIC
                     )
                 )
             )
 
+def markdown_to_html_node(markdown: str) -> HTMLNode:
+    block_nodes = []
+    blocks = markdown_to_blocks(markdown)
+    for block in blocks:
+        block_type = block_to_block_type(block)
+        block_node = _get_html_node_from_block_type_(block, block_type)
+        block_nodes.append(block_node)
+    return ParentNode("div", block_nodes)
+
+def text_to_children(text: str) -> list[HTMLNode]:
+    html_nodes = []
+    text_nodes = text_to_textnodes(text)
+    for node in text_nodes:
+        html_nodes.append(text_node_to_html_node(node))
+    return html_nodes
+
+def _get_html_node_from_block_type_(block: str, block_type: BlockType) -> HTMLNode:
+    match block_type:
+        case BlockType.PARAGRAPH:
+            p_block = block.replace('\n', ' ').strip()
+            return ParentNode('p', text_to_children(p_block))
+        case BlockType.HEADING:
+            num_h = block.find(' ')
+            h_block = block.split(' ', 1)[1]
+            return ParentNode(f"h{num_h}", text_to_children(h_block))
+        case BlockType.CODE:
+            code_block = block.strip("` ").lstrip('\n')
+            return ParentNode("pre", [text_node_to_html_node(TextNode(code_block, TextType.CODE))])
+        case BlockType.QUOTE:
+            bq_nodes = []
+            bq_lines = block.split('\n')
+            for line in bq_lines:
+                bq_p_line = line.replace('>', '').strip()
+                bq_nodes.append(ParentNode('p', text_to_children(bq_p_line)))
+            return ParentNode("blockquote", bq_nodes)
+        case BlockType.UNORDERED_LIST:
+            li_nodes = []
+            ul_lines = block.split('\n')
+            for line in ul_lines:
+                li_line = line[2:].strip()
+                li_nodes.append(ParentNode("li", text_to_children(li_line)))
+            return ParentNode("ul", li_nodes)
+        case BlockType.ORDERED_LIST:
+            li_nodes = []
+            ol_lines = block.split('\n')
+            for line in ol_lines:
+                li_line = line[3:].strip()
+                li_nodes.append(ParentNode("li", text_to_children(li_line)))
+            return ParentNode("ol", li_nodes)
