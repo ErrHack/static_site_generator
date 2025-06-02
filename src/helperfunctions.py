@@ -151,3 +151,11 @@ def _get_html_node_from_block_type_(block: str, block_type: BlockType) -> HTMLNo
                 li_line = line[3:].strip()
                 li_nodes.append(ParentNode("li", text_to_children(li_line)))
             return ParentNode("ol", li_nodes)
+        
+def extract_title(markdown: str) -> str:
+    blocks = markdown_to_blocks(markdown)
+    block_1_type = block_to_block_type(blocks[0])
+    node = _get_html_node_from_block_type_(blocks[0], block_1_type)
+    if node.tag != "h1":
+        raise Exception(f"node.tag is not an h1\n\tblocks[0]: {blocks[0]}, block_1_type: {block_1_type}, node.tag: {node.tag}")
+    return blocks[0][2:].strip()

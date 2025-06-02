@@ -11,7 +11,6 @@ from textnode import TextNode, TextType
 def main():
     destination = "./public/"
     if os.path.exists(destination):
-        # print(f"DEBUG: deleting {destination}")
         shutil.rmtree(destination)
     copy_static_to_public_recursive()
     # os.mkdir("./public/")
