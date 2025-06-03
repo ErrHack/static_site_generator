@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 import shutil
-from helperfunctions import extract_markdown_images, extract_markdown_links, split_nodes_delimiter
+from helperfunctions import extract_markdown_images, extract_markdown_links, extract_title, markdown_to_html_node, split_nodes_delimiter
 from htmlnode import HTMLNode
 from leafnode import LeafNode
 from parentnode import ParentNode
@@ -13,6 +13,7 @@ def main():
     if os.path.exists(destination):
         shutil.rmtree(destination)
     copy_static_to_public_recursive()
+    generate_page("./content/index.md", "./template.html", "./public/index.html")
     # os.mkdir("./public/")
     # shutil.rmtree("./public/")
     
@@ -74,6 +75,26 @@ def copy_static_to_public_recursive(source = "./static/", destination = "./publi
         elif os.path.isfile(source + target):
             shutil.copy(source + target, destination + target)
 
+def generate_page(from_path: str, template_path: str, dest_path: str):
+    print(f"Generating page from {from_path} to {dest_path} using {template_path}")
+    page = ""
+    with open(from_path, 'r') as fp:
+        with open(template_path, 'r') as tp:
+            md = fp.read()
+            print(f"DEBUG: md: {md}")
+            template = tp.read()
+            print(f"DEBUG: template: {template}")
+            node = markdown_to_html_node(md)
+            html = node.to_html()
+            print(f"DEBUG: html: {html}")
+            title = extract_title(md)
+            print(f"DEBUG: title: {title}")
+            page = template.replace("{{ Title }}", title).replace("{{ Content }}", html)
+            print(f"DEBUG: page: {page}")
+    dir_path = os.path.dirname(dest_path)
+    os.makedirs(dir_path, exist_ok=True)
+    with open(dest_path, 'w') as f:
+        f.write(page)
 
 
 if __name__ == "__main__":

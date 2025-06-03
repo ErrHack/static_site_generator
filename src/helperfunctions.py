@@ -131,12 +131,14 @@ def _get_html_node_from_block_type_(block: str, block_type: BlockType) -> HTMLNo
             code_block = block.strip("` ").lstrip('\n')
             return ParentNode("pre", [text_node_to_html_node(TextNode(code_block, TextType.CODE))])
         case BlockType.QUOTE:
-            bq_nodes = []
             bq_lines = block.split('\n')
-            for line in bq_lines:
-                bq_p_line = line.replace('>', '').strip()
-                bq_nodes.append(ParentNode('p', text_to_children(bq_p_line)))
-            return ParentNode("blockquote", bq_nodes)
+            bq_lines = [line.replace('>', '').strip() for line in bq_lines if line]
+            bq_line = ' '.join(bq_lines)
+            bq_children = text_to_children(bq_line)
+            # for line in bq_lines:
+            #     bq_p_line = line.replace('>', '').strip()
+            #     bq_nodes.append(ParentNode('p', text_to_children(bq_p_line)))
+            return ParentNode("blockquote", bq_children)
         case BlockType.UNORDERED_LIST:
             li_nodes = []
             ul_lines = block.split('\n')
