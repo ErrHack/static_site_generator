@@ -5,7 +5,6 @@ from helperfunctions import extract_title, markdown_to_html_node
 
 
 def main():
-    print(f"DEBUG: argv len: {len(sys.argv)}")
     if len(sys.argv) > 1:
         basepath = sys.argv[1]
         destination = "./docs/"

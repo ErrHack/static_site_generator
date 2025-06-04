@@ -7,7 +7,6 @@ def markdown_to_blocks(markdown: str) -> list[str]:
     return [block.strip(" \n") for block in block_lst if block]
 
 def block_to_block_type(block: str) -> BlockType:
-    # print(f"DEBUG FROM block_to_block_type(): block: {block}")
     match block[0]:
         case '#':
             return BlockType.HEADING if re.match(r"(?<!#)[#]{1,6}[ ]+.+", block) != None else BlockType.PARAGRAPH
@@ -32,5 +31,3 @@ def block_to_block_type(block: str) -> BlockType:
             return BlockType.ORDERED_LIST
         case _:
             return BlockType.PARAGRAPH
-    
-        
